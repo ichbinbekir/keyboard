@@ -15,8 +15,10 @@ func (kb *Keyboard) Close() {
 	kb.listining = false
 }
 
-func (kb *Keyboard) Handle(k *Key, h Handler) {
-	kb.bindings[k] = h
+func (kb *Keyboard) Handle(k *Key, handlers ...Handler) {
+	for _, handler := range handlers {
+		kb.bindings[k] = handler
+	}
 }
 
 func (kb *Keyboard) IsListining() bool {
