@@ -12,3 +12,7 @@ func NewKey(code uintptr) *Key {
 func (k *Key) GetState() bool {
 	return k.state
 }
+
+func (k *Key) Press() {
+	_keybd_event.Call(k.Code)
+}

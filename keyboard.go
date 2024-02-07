@@ -36,7 +36,9 @@ func (kb *Keyboard) Listen() error {
 			if state != key.state {
 				key.state = state
 
-				handler(state)
+				if handler != nil {
+					handler(state)
+				}
 			}
 		}
 	}
