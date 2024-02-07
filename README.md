@@ -14,11 +14,11 @@ import (
 )
 
 func main() {
-	k := NewKeyboard()
+	k := keyboard.NewKeyboard()
 
 	defer k.Close()
 
-	k.Handle(NewKey('A'), func(state bool) {
+	k.Handle(keyboard.NewKey('A'), func(state bool) {
 		log.Println("A: ", state)
 	})
 
