@@ -16,6 +16,10 @@ func (kb *Keyboard) Close() {
 }
 
 func (kb *Keyboard) Handle(k *Key, handlers ...Handler) {
+	if len(handlers) == 0 {
+		kb.bindings[k] = nil
+	}
+
 	for _, handler := range handlers {
 		kb.bindings[k] = handler
 	}
