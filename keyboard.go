@@ -27,7 +27,7 @@ func (kb *Keyboard) Listen(onLoads ...func()) error {
 	kb.listining = true
 
 	for _, onLoad := range onLoads {
-		onLoad()
+		go onLoad()
 	}
 
 	for kb.listining {
@@ -41,7 +41,7 @@ func (kb *Keyboard) Listen(onLoads ...func()) error {
 				key.state = state
 
 				if handler != nil {
-					handler(state)
+					go handler(state)
 				}
 			}
 		}
