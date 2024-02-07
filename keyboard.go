@@ -23,8 +23,12 @@ func (kb *Keyboard) IsListining() bool {
 	return kb.listining
 }
 
-func (kb *Keyboard) Listen() error {
+func (kb *Keyboard) Listen(onLoads ...func()) error {
 	kb.listining = true
+
+	for _, onLoad := range onLoads {
+		onLoad()
+	}
 
 	for kb.listining {
 		for key, handler := range kb.bindings {
