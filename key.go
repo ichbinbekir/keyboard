@@ -13,6 +13,10 @@ func (k *Key) GetState() bool {
 	return k.state
 }
 
-func (k *Key) Press() {
-	_keybd_event.Call(k.Code)
+func (k *Key) Press() error {
+	if _, _, err := _keybd_event.Call(k.Code); err.Error() != errOperationComletedText {
+		return err
+	}
+
+	return nil
 }
