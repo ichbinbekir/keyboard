@@ -1,0 +1,24 @@
+name: Test
+on:
+  push:
+    branches: [master]
+    paths: ["**", "!docs/**", "!**.md"]
+  pull_request:
+    branches: [master]
+    paths: ["**", "!docs/**", "!**.md"]
+jobs:
+  Build:
+    strategy:
+      matrix:
+        version: [1.22.x]
+        platform: [windows-latest]
+    runs-on: ${{matrix.platform}}
+    steps:
+    - name: Fetch Repository
+      uses: actions/checkout@v4
+    - name: Install Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{matrix.version}}
+    - name: Run Test
+      run: go test ./...
