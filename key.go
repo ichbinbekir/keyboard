@@ -14,7 +14,7 @@ func (k *Key) GetState() bool {
 }
 
 func (k *Key) Press() error {
-	if _, _, err := _keybd_event.Call(k.Code); err.Error() != errOperationComletedText {
+	if _, _, err := _keybd_event.Call(k.Code); err != errOperationComleted {
 		return err
 	}
 

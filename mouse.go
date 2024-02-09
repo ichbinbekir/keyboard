@@ -1,7 +1,7 @@
 package keyboard
 
 func MouseEvent(event uintptr) error {
-	if _, _, err := _mouse_event.Call(event); err.Error() != errOperationComletedText {
+	if _, _, err := _mouse_event.Call(event); err != errOperationComleted {
 		return err
 	}
 

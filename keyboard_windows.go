@@ -13,11 +13,11 @@ var (
 	//_sendInput        = _user32.NewProc("SendInput")
 )
 
-const errOperationComletedText = "The operation completed successfully."
+const errOperationComleted syscall.Errno = 0
 
 func getKeyState(code uintptr) (bool, error) {
 	state, _, err := _getAsyncKeyState.Call(code)
-	if err.Error() != errOperationComletedText {
+	if err != errOperationComleted {
 		return false, err
 	}
 
