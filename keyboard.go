@@ -7,7 +7,7 @@ type Keyboard struct {
 	listining bool
 }
 
-func NewKeyboard() *Keyboard {
+func New() *Keyboard {
 	return &Keyboard{bindings: make(map[*Key]Handler)}
 }
 

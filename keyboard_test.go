@@ -6,7 +6,7 @@ import (
 )
 
 func TestKeyboard(t *testing.T) {
-	kb := NewKeyboard()
+	kb := New()
 
 	kb.Handle(NewKey('A'))
 
