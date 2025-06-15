@@ -1,25 +1,34 @@
 package keyboard
 
 import (
-	"syscall"
+	"unsafe"
+
+	"github.com/ichbinbekir/keyboard/pkg/windows/core"
+	"github.com/ichbinbekir/keyboard/pkg/windows/user32"
 )
 
-var _user32 = syscall.NewLazyDLL("user32.dll")
+func (kb *Keyboard) readEvents() {
+	hook := user32.SetWindowsHookExW(
+		user32.WH_KEYBOARD_LL,
+		func(code int, wParam core.WPARAM, lParam core.LPARAM) core.LRESULT {
+			if code == user32.HC_ACTION {
+				p := (*user32.KBDLLHOOKSTRUCT)(unsafe.Pointer(lParam))
+				kb.Events <- KeyboardEvent{Key: uint32(p.VkCode), State: wParam == user32.WM_KEYDOWN}
+			}
+			return user32.CallNextHookEx(0, code, wParam, lParam)
+		},
+		0,
+		0,
+	)
+	defer user32.UnhookWindowsHookEx(hook)
 
-var (
-	_getAsyncKeyState = _user32.NewProc("GetAsyncKeyState")
-	_mouse_event      = _user32.NewProc("mouse_event")
-	_keybd_event      = _user32.NewProc("keybd_event")
-	//_sendInput        = _user32.NewProc("SendInput")
-)
-
-const errOperationComleted syscall.Errno = 0
-
-func getKeyState(code uintptr) (bool, error) {
-	state, _, err := _getAsyncKeyState.Call(code)
-	if err != errOperationComleted {
-		return false, err
+	var msg user32.MSG
+	for user32.GetMessageW(&msg, 0, 0, 0) == 1 && !kb.IsClosed() {
+		user32.TranslateMessage(&msg)
+		user32.DispatchMessageW(&msg)
 	}
+}
 
-	return state != 0, nil
+func getState(key int) bool {
+	return user32.GetAsyncKeyState(key) != 0
 }

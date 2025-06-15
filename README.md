@@ -2,6 +2,11 @@
 
 Handle background keyboard inputs on windows for golang.
 
+## 🕦 Future
+
+- [ ] Send click event
+- [ ] Handle mouse events
+
 ## ⚡️ Quickstart
 
 ```go
@@ -13,32 +18,13 @@ import (
   "github.com/ichbinbekir/keyboard"
 )
 
-const (
-	_mouseLeftDown = 0x0002
-	_mouseLeftUp   = 0x0004
-)
-
 func main() {
-	kb := keyboard.New()
-
+	kb := New(/* Config{} */)
 	defer kb.Close()
 
-	kb.Handle(keyboard.NewKey('A'), func(state bool) {
-		if state {
-			keyboard.MouseEvent(_mouseLeftDown)
-			keyboard.MouseEvent(_mouseLeftUp)
-		}
-	})
-
-	ck := keyboard.NewKey('C')
-	kb.Handle(keyboard.NewKey('B'), func(state bool) {
-		if state {
-			ck.Press()
-		}
-	})
-
-	log.Println("listening keyboard")
-	log.Fatal(kb.Listen())
+	for event := range kb.Events {
+		log.Println(event)
+	}
 }
 ```
 
