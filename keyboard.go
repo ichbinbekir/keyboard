@@ -30,3 +30,7 @@ func (kb Keyboard) GetConfig() Config {
 func GetState(key int) bool {
 	return getState(key)
 }
+
+func SendInput(key int, state bool) {
+	sendInput(key, state)
+}

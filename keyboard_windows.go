@@ -32,3 +32,11 @@ func (kb *Keyboard) readEvents() {
 func getState(key int) bool {
 	return user32.GetAsyncKeyState(key) != 0
 }
+
+func sendInput(key int, state bool) {
+	if state {
+		user32.Keybd_event(core.BYTE(key), 0, 0, 0)
+		return
+	}
+	user32.Keybd_event(core.BYTE(key), 0, user32.KEYEVENTF_KEYUP, 0)
+}

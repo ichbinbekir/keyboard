@@ -13,4 +13,5 @@ type (
 	BOOL      int32
 	ULONG_PTR uintptr
 	SHORT     int16
+	BYTE      byte
 )

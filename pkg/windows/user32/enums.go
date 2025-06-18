@@ -29,3 +29,8 @@ const (
 )
 
 const HC_ACTION = 0
+
+const (
+	KEYEVENTF_EXTENDEDKEY = 0x0001
+	KEYEVENTF_KEYUP       = 0x0002
+)

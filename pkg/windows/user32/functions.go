@@ -58,13 +58,18 @@ func CallNextHookEx(hhk core.HHOOK, nCode int, wParam core.WPARAM, lParam core.L
 	return core.LRESULT(ret)
 }
 
-// SHORT GetAsyncKeyState(
-//   [in] int vKey
-// );
-
 func GetAsyncKeyState(vKey int) core.SHORT {
 	ret, _, _ := _getAsyncKeyState.Call(
 		uintptr(vKey),
 	)
 	return core.SHORT(ret)
+}
+
+func Keybd_event(bVk, bScan core.BYTE, dwFlags core.DWORD, dwExtraInfo core.ULONG_PTR) {
+	_keybd_event.Call(
+		uintptr(bVk),
+		uintptr(bScan),
+		uintptr(dwFlags),
+		uintptr(dwExtraInfo),
+	)
 }
