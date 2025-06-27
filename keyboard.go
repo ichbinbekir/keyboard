@@ -9,7 +9,6 @@ type Keyboard struct {
 func New(configs ...Config) *Keyboard {
 	kb := &Keyboard{config: mergeConfigs(configs...)}
 	kb.Events = make(chan Event, kb.config.ChannelSize)
-
 	go kb.readEvents()
 	return kb
 }
@@ -19,7 +18,7 @@ func (kb *Keyboard) Close() {
 	close(kb.Events)
 }
 
-func (kb Keyboard) IsClosed() bool {
+func (kb Keyboard) Closed() bool {
 	return kb.closed
 }
 

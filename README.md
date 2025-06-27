@@ -2,10 +2,13 @@
 
 Handle background keyboard inputs on windows for golang.
 
-## 🕦 Future
+## 🎯 Future
 
-- [ ] Send click event
+- [ ] Send input
 - [ ] Handle mouse events
+- [ ] Git Actions and tests
+- [ ] Cross platform
+- [ ] Key code enum
 
 ## ⚡️ Quickstart
 
