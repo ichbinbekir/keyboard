@@ -3,15 +3,25 @@ package keyboard
 import "reflect"
 
 type Config struct {
-	ChannelSize int
+	ChannelSize          int
+	SendRepeatedKeyDowns bool
+
+	HandleKeyboard     bool
+	HandleMouseButtons bool
+	HandleMouseWheel   bool
+	HandleMouseMove    bool
 }
 
-var defaultConfig = Config{
-	ChannelSize: 8,
+func DefaultConfig() Config {
+	return Config{
+		ChannelSize:    8,
+		HandleKeyboard: true,
+	}
 }
 
+// TODO: Not working
 func mergeConfigs(cfgs ...Config) Config {
-	config := defaultConfig
+	config := DefaultConfig()
 	if len(cfgs) == 0 {
 		return config
 	}
