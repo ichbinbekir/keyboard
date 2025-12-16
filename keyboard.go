@@ -12,8 +12,8 @@ type Keyboard struct {
 	keyStates    map[uint32]bool
 }
 
-func New(configs ...Config) *Keyboard {
-	kb := &Keyboard{config: mergeConfigs(configs...)}
+func New(cfg Config) *Keyboard {
+	kb := &Keyboard{config: cfg}
 	kb.Events = make(chan Event, kb.config.ChannelSize)
 	kb.Errors = make(chan error)
 	kb.keyStates = make(map[uint32]bool)

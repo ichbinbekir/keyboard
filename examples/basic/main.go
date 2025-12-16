@@ -7,7 +7,11 @@ import (
 )
 
 func main() {
-	kb := keyboard.New(keyboard.Config{HandleMouseButtons: true})
+	cfg := keyboard.DefaultConfig()
+	cfg.SendRepeatedKeyDowns = false
+	cfg.HandleMouseButtons = true
+
+	kb := keyboard.New(cfg)
 	defer kb.Close()
 
 	for {
