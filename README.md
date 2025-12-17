@@ -1,6 +1,6 @@
 # ⌨️ Keyboard
 
-Handle background keyboard inputs on windows for golang.
+Handle background keyboard inputs for golang.
 
 ## 🎯 Future
 
