@@ -1,15 +1,11 @@
 package keyboard
 
-import (
-	"github.com/ichbinbekir/windows/user32"
-)
-
 type Keyboard struct {
-	config       Config
-	Events       chan Event
-	Errors       chan error
-	lastMousePos user32.POINT
-	keyStates    map[uint32]bool
+	config    Config
+	Events    chan Event
+	Errors    chan error
+	keyStates map[uint32]bool
+	platform  platformSpecific
 }
 
 func New(cfg Config) *Keyboard {

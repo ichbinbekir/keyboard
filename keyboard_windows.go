@@ -8,6 +8,11 @@ import (
 	"github.com/ichbinbekir/windows/user32"
 )
 
+// platformSpecific holds Windows-specific data for the Keyboard struct.
+type platformSpecific struct {
+	lastMousePos user32.POINT
+}
+
 func (kb *Keyboard) readEvents() {
 	handleMouse := kb.config.HandleMouseButtons || kb.config.HandleMouseWheel || kb.config.HandleMouseMove
 	if !kb.config.HandleKeyboard && !handleMouse {
@@ -98,9 +103,9 @@ func (kb *Keyboard) readEvents() {
 				}
 
 				if kb.config.HandleMouseMove {
-					if hookData.Pt.X != kb.lastMousePos.X || hookData.Pt.Y != kb.lastMousePos.Y {
-						kb.lastMousePos.X = hookData.Pt.X
-						kb.lastMousePos.Y = hookData.Pt.Y
+					if hookData.Pt.X != kb.platform.lastMousePos.X || hookData.Pt.Y != kb.platform.lastMousePos.Y {
+						kb.platform.lastMousePos.X = hookData.Pt.X
+						kb.platform.lastMousePos.Y = hookData.Pt.Y
 						kb.Events <- MouseMoveEvent{X: int32(hookData.Pt.X), Y: int32(hookData.Pt.Y)}
 					}
 				}
@@ -110,11 +115,12 @@ func (kb *Keyboard) readEvents() {
 		defer user32.UnhookWindowsHookEx(hook)
 	}
 
-	var msg user32.MSG
-	for user32.GetMessageW(&msg, 0, 0, 0) == 1 {
-		user32.TranslateMessage(&msg)
-		user32.DispatchMessageW(&msg)
-	}
+	// var msg user32.MSG
+	user32.GetMessageW(nil, 0, 0, 0)
+	// for user32.GetMessageW(&msg, 0, 0, 0) == 1 {
+	// 	user32.TranslateMessage(&msg)
+	// 	user32.DispatchMessageW(&msg)
+	// }
 }
 
 func getState(key int) bool {
